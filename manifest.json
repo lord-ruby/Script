@@ -1,0 +1,16 @@
+{
+    "name": "Script",
+    "id": "Script",
+    "version": "1.0.0",
+    "website_url": "",
+    "description": "",
+    "prefix": "bstrp",
+    "author": ["Ruby"],
+    "main_file": "main.lua",
+    "priority": 10,
+    "badge_colour": "FE0001",
+    "dependencies": [
+    ],
+    "conflicts": [
+    ]
+}
