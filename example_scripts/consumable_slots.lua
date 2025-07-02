@@ -1,0 +1,1 @@
+G.consumeables.config.card_limit = 20

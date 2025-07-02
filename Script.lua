@@ -14,8 +14,7 @@ function Script.load_config()
         return loadstring(str)()
     else    
         return {
-            only_stack_negatives = true,
-            fix_slots = true
+            Enabled = {}
         }
     end
 end
@@ -38,24 +37,39 @@ end
 function Script.eval_file(path)
     local text = ""
     for line in nativefs.lines(path) do
-        text = text..line.." "
+        text = text..line.."\n"
     end
     loadstring(text)()
 end
 
 Script.files = {}
 local finfo = nativefs.getDirectoryItemsInfo(Script.path.."/scripts")
+if not Script.config.Enabled then Script.config.Enabled = {} end
 for i, v in pairs(finfo) do
     if v.type == "file" then
-        Script.files[#Script.files+1]=v.name
+        local oc
+        for line in nativefs.lines(Script.path.."/scripts/"..v.name) do
+            if string.find(string.lower(line), "-- on_continue") then
+                oc = true
+            end
+        end
+        Script.files[#Script.files+1]={
+            path = v.name,
+            on_continue = oc 
+        }
+        if Script.config.Enabled[v.name] == nil then
+            Script.config.Enabled[v.name] = true
+        end
     end
 end
 local gsr = Game.start_run
 function Game:start_run(args)
 	gsr(self, args)
-    if not args.savetable then
-        for i, v in pairs(Script.files) do
-            Script.eval_file(Script.path.."/scripts/"..v)
+    for i, v in pairs(Script.files) do
+        if not args.savetext then
+            Script.eval_file(Script.path.."/scripts/"..v.path)
+        elseif v.on_continue then
+            Script.eval_file(Script.path.."/scripts/"..v.path)
         end
     end
 end

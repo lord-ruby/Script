@@ -1,0 +1,1 @@
+G.GAME.win_ante = 10

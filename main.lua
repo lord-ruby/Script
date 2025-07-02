@@ -1,4 +1,5 @@
 ScriptConfigTag = function()
+    if not Script.config.Enabled then Script.config.Enabled = {} end
     if not G.SCRIPT_PAGE then G.SCRIPT_PAGE = 1 end
     bstrp_nodes = {
     }
@@ -10,7 +11,7 @@ ScriptConfigTag = function()
     bstrp_nodes2[#bstrp_nodes2 + 1] = config
     local real_buffer = {}
     for i, v in ipairs(Script.files) do
-        real_buffer[#real_buffer+1] = v
+        real_buffer[#real_buffer+1] = v.path
     end
     local page = (G.SCRIPT_PAGE and G.SCRIPT_PAGE * 6 or 6) - (6 - 1)
     local max_pages = math.floor(#real_buffer/6)
