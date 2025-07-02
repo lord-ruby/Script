@@ -73,3 +73,14 @@ function Game:start_run(args)
         end
     end
 end
+
+function Script.add_event(func, after, delay)
+    G.E_MANAGER:add_event(Event({
+        after = after,
+        delay = delay,
+        func = function()
+            func()
+            return true
+        end
+    }))
+end
